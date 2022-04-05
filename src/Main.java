@@ -1,4 +1,6 @@
+import java.security.KeyStore;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -58,7 +60,8 @@ public class Main {
         index.put("Y", 25);
         index.put("Z", 26);
 
-        String test = "BOB";
+        String test = "There";
+        //There is the heat of Love, the pulsing rush of Longing, the lover’s whisper, irresistible—magic to make the sanest man go mad
 
         int shift = 1;
         String testEncrypt = encrypt(test, shift, alphabet, index);
@@ -69,9 +72,10 @@ public class Main {
 
     public static String encrypt(String s, int k, HashMap<Integer, String> a, HashMap<String, Integer> ind){
         String builder = "";
-        s.toUpperCase();
         for (int i = 0; i < s.length(); i++){
-            int key = ind.get(String.valueOf(s.charAt(i)));
+            String upper = s.toUpperCase();
+
+            int key = ind.get(String.valueOf(upper.charAt(i)));
             int shifted = key + k;
             builder += a.get(shifted);
         }
