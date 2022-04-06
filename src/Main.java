@@ -5,6 +5,7 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         HashMap<Integer, String> alphabet = new HashMap<>();
+        alphabet.put(27, "\u0020");
         alphabet.put(1, "A");
         alphabet.put(2, "B");
         alphabet.put(3, "C");
@@ -33,6 +34,7 @@ public class Main {
         alphabet.put(26, "Z");
 
         HashMap<String, Integer> index = new HashMap<>();
+        index.put("\u0020", 27);
         index.put("A", 1);
         index.put("B", 2);
         index.put("C", 3);
@@ -60,11 +62,14 @@ public class Main {
         index.put("Y", 25);
         index.put("Z", 26);
 
-        String test = "There";
+        String test = "There is the heat of Love, the pulsing rush of Longing, the lovers whisper, " +
+                "irresistible magic to make the sanest man go mad";
+        String noPuct = test.replaceAll("\\p{Punct}", "");
+        System.out.println(noPuct);
         //There is the heat of Love, the pulsing rush of Longing, the lover’s whisper, irresistible—magic to make the sanest man go mad
 
         int shift = 1;
-        String testEncrypt = encrypt(test, shift, alphabet, index);
+        String testEncrypt = encrypt(noPuct, shift, alphabet, index);
         System.out.println(testEncrypt);
         String testDecrypt = decrypt(testEncrypt, shift, alphabet, index);
         System.out.println(testDecrypt);
@@ -74,9 +79,13 @@ public class Main {
         String builder = "";
         for (int i = 0; i < s.length(); i++){
             String upper = s.toUpperCase();
-
             int key = ind.get(String.valueOf(upper.charAt(i)));
-            int shifted = key + k;
+            int shifted;
+            if(key == 27){
+                shifted = 27;
+            } else{
+                shifted = key + k;
+            }
             builder += a.get(shifted);
         }
         return builder;
@@ -86,7 +95,12 @@ public class Main {
         String builder = "";
         for (int i = 0; i < s.length(); i++){
             int key = ind.get(String.valueOf(s.charAt(i)));
-            int shifted = key - k;
+            int shifted;
+            if(key == 27){
+                shifted = 27;
+            } else{
+                shifted = key - k;
+            }
             builder += a.get(shifted);
         }
         return builder;
